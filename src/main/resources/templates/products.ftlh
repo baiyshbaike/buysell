@@ -1,52 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Page Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-            </ul>
-
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-            </form>
-
-            <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+<#import "blocks/template.ftlh" as t>
+<@t.template user>
+    <h1 style="text-align: center">Поиск товаров</h1><hr>
+    <form method="get" action="/">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="searchCity">Город</label>
+                <select id="searchCity" class="form-control">
+                    <option value="">Город не выбран</option>
+                    <option value="Бишкек">Бишкек</option>
+                    <option value="Ош">Ош</option>
+                    <option value="Баткен">Баткен</option>
+                </select>
             </div>
+            <div class="form-group col-md-10">
+                <label for="searchWord">Поиск по объявлениям</label>
+                <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if> class="form-control"
+                       id="searchWord">
+            </div>
+            <button style="width: 100%" type="submit" class="btn btn-dark">Поиск</button>
         </div>
+    </form>
+    <hr>
+    <div class="card-columns">
+        <#list products as product>
+            <a href="/product/${product.id}" class="product-link">
+                <div class="card text-white bg-dark my-3 product">
+
+                    <img src="/images/${product.previewImageId}"
+                         class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.title}</h5>
+                        <p class="card-text">${product.price} ₽</p>
+                    </div>
+                    <div class="card-footer">
+                        ${product.city}
+                    </div>
+                </div>
+            </a>
+        <#else>
+            <h1 style="text-align: center">Не найдено</h1>
+        </#list>
     </div>
-</header>
-<h1>BUYSELL</h1>
-<p>Товары со всей России</p>
-<#list porducts as product>
-    <div>
-        <p><b>${product.title}</b>${product.price} | <a href="/product/${product.id}">Подробнее...</a></p>
-    </div>
-</#list>
-<hr>
-<h2>Создать новый товар</h2>
-<form action="/product/create" method="post">
-    Называние объявления: <input type="text" name="title"/><br><br>
-    Описание объявления: <input type="text" name="description"/><br><br>
-    Цена : <input type="number" name="price"/><br><br>
-    Город: <input type="text" name="city"/><br><br>
-    Автор: <input type="text" name="author"/><br><br>
-    <input type="submit" value="Добавить товар">
-</form>
-</body>
-</html>
+</@t.template>

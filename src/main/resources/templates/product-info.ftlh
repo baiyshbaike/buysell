@@ -1,46 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Page Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
+<#import "blocks/template.ftlh" as t>
+<@t.template user>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <#list images as image>
+                <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+            </#list>
+        </ol>
+        <div class="carousel-inner">
+            <#list images as image>
+                <div class="carousel-item <#if image.previewImage>active</#if>">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         role="img" aria-label=" :  " preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title></title>
+                        <rect width="100%" height="100%" fill="#777"></rect>
+                        <text x="50%" y="50%" fill="#777" dy=".3em"></text>
+                    </svg>
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-            </ul>
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <a href="/images/${image.id}">
+                                <img class="product" style="height: 100px" src="/images/${image.id}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </#list>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-            </form>
-
-            <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
-            </div>
         </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-</header>
-<h1>BUYSELL</h1>
-<p>Подробнее информация о товаре</p>
-<b>Называние товара:  </b>${product.title}<br>
-<b>Описание товара:  </b>${product.description}<br>
-<b>Цена:  </b>${product.price}<br>
-<b>Город:  </b>${product.city}<br>
-<b>Автор:  </b>${product.author}<br>
-<hr>
-<form action="/product/delete/${product.id}" method="post">
-    <input type="submit" value="Удалить товар">
-</form>
-</body>
-</html>
+    <hr>
+    <p><h1 style="text-align: center">${product.title} | ${product.price} ₽</h1></p>
+    <p style="text-align: center">${product.description}</p>
+    <p style="text-align: center">Номер телефона продавца: <b>${authorProduct.phoneNumber}</b></p>
+
+    <hr>
+    <p style="text-align: center">
+        <a href="/user/${authorProduct.id}">
+            <img src="/static/images/avatar.png" alt="mdo" width="32" height="32" class="rounded-circle"> ${authorProduct.name}
+        </a>
+    </p>
+
+</@t.template>
